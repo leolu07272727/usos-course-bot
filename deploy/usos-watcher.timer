@@ -1,0 +1,15 @@
+[Unit]
+Description=Run USOS Watcher every minute
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=1min
+# Spread the firing slightly so we never hit USOS at the same second on every
+# cycle. Cookie persistence keeps actual CAS logins at ~once per day, so this
+# cadence is one cheap calendar GET per minute, not per-minute auth traffic.
+RandomizedDelaySec=3
+Persistent=true
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

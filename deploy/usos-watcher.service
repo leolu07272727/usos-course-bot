@@ -1,0 +1,17 @@
+[Unit]
+Description=USOS Watcher (oneshot)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=usoswatch
+EnvironmentFile=/etc/usos-watcher/.env
+WorkingDirectory=/opt/usos-watcher/app
+ExecStart=/opt/usos-watcher/venv/bin/python -m usos_watcher
+Nice=10
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/usos-watcher /var/log/usos-watcher /var/lock
+ProtectHome=true

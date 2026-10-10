@@ -1,0 +1,42 @@
+# USOS Watcher — runtime configuration.
+# See SPEC.md §7.2 for the full schema and rationale.
+#
+# Any UW student can use this tool — edit targets: below with your own
+# registration_code, course_name_match, and group_preference.
+
+targets:
+  - registration_code: "2600-IBP-MS2026Z"
+    course_name_match: "Master Seminar - IBP"
+    calendar_url: "https://usosweb.uw.edu.pl/kontroler.php?_action=dla_stud/rejestracja/kalendarz&lang=en"
+    group_preference:
+      strategy: keyword                     # keyword | group_number | any_available
+      tier1_keywords: ["Hensel", "Przemysław Hensel", "Przemyslaw Hensel"]
+      tier2_keywords: ["AI", "Artificial Intelligence"]
+      on_no_match: "email_and_exit"         # never pick_first — see SPEC.md §15
+
+# To watch a second course, add another entry:
+# - registration_code: "2600-XYZ-YYYY"
+#   course_name_match: "Course Name"
+#   group_preference:
+#     strategy: any_available
+#     on_no_match: "notify_and_exit"
+
+behavior:
+  refill_mode: false                        # keep watching for a better group after success
+  dry_run: false                            # true = parse + pick but never POST
+
+email:
+  daily_heartbeat_time: "09:00"             # local server time
+  failure_threshold_login: 3
+  failure_threshold_http: 5
+
+logging:
+  level: INFO
+  rotate_max_bytes: 5242880                 # 5 MB
+  rotate_backups: 5
+
+http:
+  request_timeout_sec: 20
+  retries: 2
+  jitter_max_sec: 2
+  user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
